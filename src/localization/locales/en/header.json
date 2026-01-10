@@ -1,0 +1,10 @@
+{
+  "header": {
+    "dashboard": "Dashboard",
+    "upload": "Upload Document",
+    "history": "Document History",
+    "review": "Review Document",
+    "admin": "Admin",
+    "logout": "Logout"
+  }
+}
