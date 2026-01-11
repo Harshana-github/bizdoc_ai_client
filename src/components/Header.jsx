@@ -2,12 +2,15 @@ import { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ROUTE_TITLES } from "../routes/routes";
+import useAuthStore from "../store/useAuthStore";
 import "./Header.scss";
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+
+  const { user, logout } = useAuthStore();
 
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
@@ -23,11 +26,11 @@ const Header = () => {
     i18n.changeLanguage(lang);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logout(); 
     navigate("/login");
   };
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -67,7 +70,7 @@ const Header = () => {
               className="header-user"
               onClick={() => setShowMenu(!showMenu)}
             >
-              {t("header.admin")}
+              {user?.name}
             </span>
 
             {showMenu && (
