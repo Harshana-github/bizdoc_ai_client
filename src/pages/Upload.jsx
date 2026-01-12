@@ -111,13 +111,21 @@ const Upload = () => {
       </div>
 
       <div className="upload-actions">
-        <button
-          className="process-btn"
-          disabled={!file || isLoading}
-          onClick={handleProcess}
-        >
-          {isLoading ? t("upload.processing") : t("upload.process")}
-        </button>
+        {!isLoading && (
+          <button
+            className="process-btn"
+            disabled={!file}
+            onClick={handleProcess}
+          >
+            {t("upload.process")}
+          </button>
+        )}
+
+        {isLoading && (
+          <div className="processing-bar">
+            <div className="processing-bar-fill" />
+          </div>
+        )}
       </div>
 
       {error && <p className="upload-error">{error}</p>}

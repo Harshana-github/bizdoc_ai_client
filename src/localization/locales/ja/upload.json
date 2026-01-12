@@ -8,6 +8,7 @@
     "previewHint": "アップロード前にプレビューするファイルを選択してください",
     "preview": "プレビュー",
     "clear": "クリア",
-    "process": "OCRを実行"
+    "process": "OCRを実行",
+    "processing": "........"
   }
 }

@@ -8,6 +8,7 @@
     "previewHint": "Select a file to preview before uploading",
     "preview": "Preview",
     "clear": "Clear",
-    "process": "Process OCR"
+    "process": "Process OCR",
+    "processing": "........"
   }
 }
