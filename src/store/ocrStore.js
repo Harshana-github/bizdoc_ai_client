@@ -10,7 +10,6 @@ const useOcrStore = create(
       isLoading: false,
       error: null,
 
-
       setFile: (file) => set({ file }),
 
       clearFile: () =>
@@ -31,19 +30,12 @@ const useOcrStore = create(
         set({ isLoading: true, error: null });
 
         try {
-          // Debug log (same style you used before)
-          console.log("Uploading document:", {
-            name: file.name,
-            size: file.size,
-            type: file.type,
-          });
-
           const formData = new FormData();
           formData.append("document", file, file.name);
 
           // Debug FormData (correct way)
           for (let pair of formData.entries()) {
-            console.log("FormData:", pair[0], pair[1]);
+            // console.log("FormData:", pair[0], pair[1]);
           }
 
           const response = await customFetch.post("/ocr/process", formData, {

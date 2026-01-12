@@ -7,10 +7,22 @@ const Review = () => {
   const { result } = useOcrStore();
 
   const file = result?.file;
+  const ocr = result?.ocr;
+
+  const content = ocr.data.choices[0].message.content;
+
+  const cleanJsonString = content
+    .replace(/```json/g, "")
+    .replace(/```/g, "")
+    .trim();
+
+  const docData = JSON.parse(cleanJsonString);
+
+  console.log("Parsed Invoice Data:");
+  console.log(JSON.stringify(docData, null, 2));
 
   return (
     <div className="review-page">
-      {/* HEADER */}
       <div className="review-header">
         <div className="review-header-left">
           <h2>{t("review.title")}</h2>
@@ -18,30 +30,20 @@ const Review = () => {
         </div>
 
         <div className="review-header-actions">
-          <button className="btn secondary">
-            {t("review.reprocess")}
-          </button>
+          <button className="btn secondary">{t("review.reprocess")}</button>
 
-          <button className="btn primary">
-            {t("review.confirm")}
-          </button>
+          <button className="btn primary">{t("review.confirm")}</button>
 
-          <button className="btn outline">
-            {t("review.export")}
-          </button>
+          <button className="btn outline">{t("review.export")}</button>
         </div>
       </div>
 
-      {/* BODY */}
       <div className="review-body">
-        {/* LEFT: Original document preview */}
         <div className="review-panel document-view">
           <h4>{t("review.original")}</h4>
 
           {!file && (
-            <div className="document-placeholder">
-              📄 {t("review.preview")}
-            </div>
+            <div className="document-placeholder">📄 {t("review.preview")}</div>
           )}
 
           {file && file.type.startsWith("image") && (
@@ -61,13 +63,12 @@ const Review = () => {
           )}
         </div>
 
-        {/* RIGHT: Extracted data */}
         <div className="review-panel data-view">
           <h4>{t("review.extracted")}</h4>
 
           <div className="form-group">
             <label>{t("review.invoiceNo")}</label>
-            <input type="text" defaultValue="INV-00123" />
+            <input type="text" />
           </div>
 
           <div className="form-group">
