@@ -1,0 +1,13 @@
+{
+  "upload": {
+    "title": "Upload Documents",
+    "subtitle": "Upload invoices, quotations, or any business documents for OCR processing.",
+    "dragDrop": "Drag & drop your documents here",
+    "formats": "Supported formats: PDF, JPG, PNG (Handwritten or Printed)",
+    "browse": "Browse Files",
+    "previewHint": "Select a file to preview before uploading",
+    "preview": "Preview",
+    "clear": "Clear",
+    "process": "Process OCR"
+  }
+}

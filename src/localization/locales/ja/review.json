@@ -1,0 +1,15 @@
+{
+  "review": {
+    "title": "ドキュメント確認",
+    "subtitle": "確認前に抽出されたデータを編集・検証してください。",
+    "original": "元のドキュメント",
+    "preview": "ドキュメントプレビュー",
+    "extracted": "抽出データ",
+    "invoiceNo": "請求書番号",
+    "date": "日付",
+    "customer": "顧客名",
+    "confirm": "確認",
+    "export": "エクスポート",
+    "reprocess": "OCRを再実行"
+  }
+}

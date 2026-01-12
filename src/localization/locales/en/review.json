@@ -1,0 +1,15 @@
+{
+  "review": {
+    "title": "Review Document",
+    "subtitle": "Verify and edit extracted document data before confirmation.",
+    "original": "Original Document",
+    "preview": "Document Preview",
+    "extracted": "Extracted Data",
+    "invoiceNo": "Invoice Number",
+    "date": "Date",
+    "customer": "Customer Name",
+    "confirm": "Confirm",
+    "export": "Export",
+    "reprocess": "Reprocess OCR"
+  }
+}

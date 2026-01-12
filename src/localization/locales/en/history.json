@@ -1,0 +1,14 @@
+{
+  "history": {
+    "title": "Document History",
+    "subtitle": "View and manage all processed documents.",
+    "document": "Document",
+    "type": "Type",
+    "status": "Status",
+    "date": "Date",
+    "action": "Action",
+    "view": "View",
+    "completed": "Completed",
+    "pending": "Pending Review"
+  }
+}

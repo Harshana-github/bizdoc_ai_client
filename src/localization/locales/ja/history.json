@@ -1,0 +1,14 @@
+{
+  "history": {
+    "title": "ドキュメント履歴",
+    "subtitle": "処理済みドキュメントを確認・管理できます。",
+    "document": "ドキュメント",
+    "type": "種類",
+    "status": "ステータス",
+    "date": "日付",
+    "action": "操作",
+    "view": "表示",
+    "completed": "完了",
+    "pending": "確認待ち"
+  }
+}

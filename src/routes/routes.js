@@ -1,7 +1,7 @@
 export const ROUTES = {
   DASHBOARD: "/",
   UPLOAD: "/upload",
-  REVIEW: "/review/:id",
+  REVIEW: "/review",
   HISTORY: "/history",
   LOGIN: "/login",
   SIGNUP: "/signup",

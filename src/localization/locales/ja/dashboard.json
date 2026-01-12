@@ -2,6 +2,9 @@
   "dashboard": {
     "title": "ダッシュボード",
     "welcome": "BizDoc AIへようこそ",
-    "description": "ビジネス文書を効率的に管理・処理できます。"
+    "description": "ビジネス文書を効率的に管理・処理できます。",
+    "totalDocs": "総ドキュメント数",
+    "pending": "確認待ち",
+    "completed": "完了"
   }
 }
