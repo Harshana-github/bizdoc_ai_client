@@ -164,4 +164,28 @@
       justify-content: flex-start;
     }
   }
+
+  .export-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .export-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    button {
+      padding: 8px;
+      cursor: pointer;
+    }
+  }
 }

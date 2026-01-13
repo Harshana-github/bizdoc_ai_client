@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import useOcrStore from "../store/ocrStore";
 import renderObject from "./DynamicForm";
+import { exportToCSV, exportToExcel } from "../utils/exportUtils";
 import "./Review.scss";
 
 const Review = () => {
@@ -21,6 +22,7 @@ const Review = () => {
   }
 
   const [formData, setFormData] = useState(initialData);
+  const [showExport, setShowExport] = useState(false);
 
   const handleChange = (path, value) => {
     setFormData((prev) => {
@@ -31,6 +33,15 @@ const Review = () => {
       obj[keys[keys.length - 1]] = value;
       return updated;
     });
+  };
+
+  const handleExport = (type) => {
+    if (type === "csv") {
+      exportToCSV(formData);
+    } else {
+      exportToExcel(formData);
+    }
+    setShowExport(false);
   };
 
   return (
@@ -44,7 +55,9 @@ const Review = () => {
         <div className="review-header-actions">
           <button className="btn secondary">{t("review.reprocess")}</button>
           <button className="btn primary">{t("review.confirm")}</button>
-          <button className="btn outline">{t("review.export")}</button>
+          <button className="btn outline" onClick={() => setShowExport(true)}>
+            {t("review.export")}
+          </button>
         </div>
       </div>
 
@@ -68,6 +81,20 @@ const Review = () => {
           <h4>{t("review.extracted")}</h4>
           {renderObject(formData, handleChange)}
         </div>
+
+        {/* EXPORT MODAL */}
+        {showExport && (
+          <div className="export-modal">
+            <div className="export-box">
+              <h4>Export As</h4>
+              <button onClick={() => handleExport("excel")}>
+                Excel (.xlsx)
+              </button>
+              <button onClick={() => handleExport("csv")}>CSV (.csv)</button>
+              <button onClick={() => setShowExport(false)}>Cancel</button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
