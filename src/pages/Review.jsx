@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import useOcrStore from "../store/ocrStore";
 import renderObject from "./DynamicForm";
@@ -6,30 +6,43 @@ import { exportToCSV, exportToExcel } from "../utils/exportUtils";
 import "./Review.scss";
 
 const Review = () => {
-  const { t } = useTranslation();
-  const { result } = useOcrStore();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language || "en";
 
+  const { result } = useOcrStore();
   const file = result?.file;
   const ocr = result?.ocr;
 
-  let initialData = {};
-  try {
-    const content = ocr?.data?.choices?.[0]?.message?.content || "";
-    const clean = content.replace(/```json|```/g, "").trim();
-    initialData = JSON.parse(clean);
-  } catch (e) {
-    console.error("Failed to parse OCR JSON");
-  }
-
-  const [formData, setFormData] = useState(initialData);
+  const [formData, setFormData] = useState({});
+  console.log(formData)
   const [showExport, setShowExport] = useState(false);
+
+  useEffect(() => {
+    try {
+      const content = ocr?.data?.choices?.[0]?.message?.content;
+      if (!content) return;
+
+      const clean = content.replace(/```json|```/g, "").trim();
+      const parsed = JSON.parse(clean);
+
+      setFormData(parsed);
+    } catch (err) {
+      console.error("Failed to parse OCR JSON", err);
+    }
+  }, [ocr]);
 
   const handleChange = (path, value) => {
     setFormData((prev) => {
       const updated = structuredClone(prev);
+
       const keys = path.replace(/\[(\d+)\]/g, ".$1").split(".");
+
       let obj = updated;
-      keys.slice(0, -1).forEach((k) => (obj = obj[k]));
+      keys.slice(0, -1).forEach((k) => {
+        if (!obj[k]) obj[k] = {};
+        obj = obj[k];
+      });
+
       obj[keys[keys.length - 1]] = value;
       return updated;
     });
@@ -54,7 +67,9 @@ const Review = () => {
 
         <div className="review-header-actions">
           <button className="btn secondary">{t("review.reprocess")}</button>
+
           <button className="btn primary">{t("review.confirm")}</button>
+
           <button className="btn outline" onClick={() => setShowExport(true)}>
             {t("review.export")}
           </button>
@@ -67,35 +82,46 @@ const Review = () => {
 
           {!file && <div className="document-placeholder">📄</div>}
 
-          {file?.type.startsWith("image") && (
-            <img src={file.preview_url} className="review-image" />
+          {file?.type?.startsWith("image") && (
+            <img
+              src={file.preview_url}
+              alt="Document"
+              className="review-image"
+            />
           )}
 
           {file?.type === "application/pdf" && (
-            <iframe src={file.preview_url} className="review-pdf" />
+            <iframe
+              src={file.preview_url}
+              title="PDF Preview"
+              className="review-pdf"
+            />
           )}
         </div>
 
-        {/* DYNAMIC FORM */}
         <div className="review-panel data-view">
           <h4>{t("review.extracted")}</h4>
-          {renderObject(formData, handleChange)}
-        </div>
 
-        {/* EXPORT MODAL */}
-        {showExport && (
-          <div className="export-modal">
-            <div className="export-box">
-              <h4>Export As</h4>
-              <button onClick={() => handleExport("excel")}>
-                Excel (.xlsx)
-              </button>
-              <button onClick={() => handleExport("csv")}>CSV (.csv)</button>
-              <button onClick={() => setShowExport(false)}>Cancel</button>
-            </div>
-          </div>
-        )}
+          {Object.keys(formData).length === 0 ? (
+            <p>No data extracted</p>
+          ) : (
+            renderObject(formData, handleChange, "", lang)
+          )}
+        </div>
       </div>
+
+      {showExport && (
+        <div className="export-modal">
+          <div className="export-box">
+            <h4>{t("review.export")}</h4>
+            <button onClick={() => handleExport("excel")}>Excel (.xlsx)</button>
+            <button onClick={() => handleExport("csv")}>CSV (.csv)</button>
+            <button onClick={() => setShowExport(false)}>
+              {t("common.cancel")}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

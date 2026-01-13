@@ -3,35 +3,39 @@ import "./DynamicForm.scss";
 const isObject = (v) =>
   typeof v === "object" && v !== null && !Array.isArray(v);
 
-/* --------------------- TABLE RENDERER --------------------- */
-const renderTable = (key, items, onChange, path) => {
-  const columns = Object.keys(items[0] || {});
+/* ---------------- TABLE ---------------- */
+const renderTable = (label, rows, onChange, path, lang) => {
+  const columns = Object.keys(rows[0] || {});
 
   return (
     <div key={path} className="table-block">
-      <h5>{key}</h5>
+      <h5>{label}</h5>
 
       <table className="editable-table">
         <thead>
           <tr>
             {columns.map((col) => (
-              <th key={col}>{col}</th>
+              <th key={col}>
+                {rows[0][col]?.label?.[lang] ?? col}
+              </th>
             ))}
           </tr>
         </thead>
 
         <tbody>
-          {items.map((row, rowIndex) => (
+          {rows.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {columns.map((col) => {
-                const cellPath = `${path}[${rowIndex}].${col}`;
+                const cellPath = `${path}[${rowIndex}].${col}.value`;
 
                 return (
                   <td key={cellPath}>
                     <input
                       type="text"
-                      value={row[col] ?? ""}
-                      onChange={(e) => onChange(cellPath, e.target.value)}
+                      value={row[col]?.value ?? ""}
+                      onChange={(e) =>
+                        onChange(cellPath, e.target.value)
+                      }
                     />
                   </td>
                 );
@@ -44,59 +48,49 @@ const renderTable = (key, items, onChange, path) => {
   );
 };
 
-/* --------------------- VALUE RENDERER --------------------- */
-const renderValue = (key, value, onChange, path = "") => {
+/* ---------------- FIELD ---------------- */
+const renderField = (key, field, onChange, path, lang) => {
+  if (Array.isArray(field) && field.length && isObject(field[0])) {
+    return renderTable(key, field, onChange, `${path}.${key}`, lang);
+  }
+
+  const label = field?.label?.[lang] ?? key;
+  const value = field?.value;
   const fieldPath = path ? `${path}.${key}` : key;
 
-  // ARRAY → TABLE
   if (Array.isArray(value) && value.length && isObject(value[0])) {
-    return renderTable(key, value, onChange, fieldPath);
+    return renderTable(label, value, onChange, `${fieldPath}.value`, lang);
   }
 
-  // ARRAY (non-object)
-  if (Array.isArray(value)) {
-    return (
-      <div key={fieldPath} className="array-block">
-        <h5>{key}</h5>
-        {value.map((item, index) => (
-          <input
-            key={`${fieldPath}[${index}]`}
-            type="text"
-            value={item}
-            onChange={(e) => onChange(`${fieldPath}[${index}]`, e.target.value)}
-          />
-        ))}
-      </div>
-    );
-  }
-
-  // OBJECT
   if (isObject(value)) {
     return (
       <fieldset key={fieldPath}>
-        <legend>{key}</legend>
+        <legend>{label}</legend>
         {Object.entries(value).map(([k, v]) =>
-          renderValue(k, v, onChange, fieldPath)
+          renderField(k, v, onChange, fieldPath, lang)
         )}
       </fieldset>
     );
   }
 
-  // PRIMITIVE
   return (
     <div key={fieldPath} className="form-group">
-      <label>{key}</label>
+      <label>{label}</label>
       <input
         type="text"
         value={value ?? ""}
-        onChange={(e) => onChange(fieldPath, e.target.value)}
+        onChange={(e) =>
+          onChange(`${fieldPath}.value`, e.target.value)
+        }
       />
     </div>
   );
 };
 
-/* --------------------- ROOT --------------------- */
-const renderObject = (obj, onChange, path = "") =>
-  Object.entries(obj).map(([k, v]) => renderValue(k, v, onChange, path));
+/* ---------------- ROOT ---------------- */
+const renderObject = (obj, onChange, path = "", lang = "en") =>
+  Object.entries(obj).map(([k, v]) =>
+    renderField(k, v, onChange, path, lang)
+  );
 
 export default renderObject;
