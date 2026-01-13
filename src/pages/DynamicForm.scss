@@ -1,0 +1,32 @@
+.table-block {
+  margin-bottom: 20px;
+
+  h5 {
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+}
+
+.editable-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    border: 1px solid #e5e7eb;
+    padding: 6px;
+  }
+
+  th {
+    background: #f9fafb;
+    font-size: 13px;
+  }
+
+  input {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    padding: 6px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+}

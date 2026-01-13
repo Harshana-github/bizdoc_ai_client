@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import useOcrStore from "../store/ocrStore";
+import renderObject from "./DynamicForm";
 import "./Review.scss";
 
 const Review = () => {
@@ -9,31 +11,39 @@ const Review = () => {
   const file = result?.file;
   const ocr = result?.ocr;
 
-  const content = ocr.data.choices[0].message.content;
+  let initialData = {};
+  try {
+    const content = ocr?.data?.choices?.[0]?.message?.content || "";
+    const clean = content.replace(/```json|```/g, "").trim();
+    initialData = JSON.parse(clean);
+  } catch (e) {
+    console.error("Failed to parse OCR JSON");
+  }
 
-  const cleanJsonString = content
-    .replace(/```json/g, "")
-    .replace(/```/g, "")
-    .trim();
+  const [formData, setFormData] = useState(initialData);
 
-  const docData = JSON.parse(cleanJsonString);
-
-  console.log("Parsed Invoice Data:");
-  console.log(JSON.stringify(docData, null, 2));
+  const handleChange = (path, value) => {
+    setFormData((prev) => {
+      const updated = structuredClone(prev);
+      const keys = path.replace(/\[(\d+)\]/g, ".$1").split(".");
+      let obj = updated;
+      keys.slice(0, -1).forEach((k) => (obj = obj[k]));
+      obj[keys[keys.length - 1]] = value;
+      return updated;
+    });
+  };
 
   return (
     <div className="review-page">
       <div className="review-header">
-        <div className="review-header-left">
+        <div>
           <h2>{t("review.title")}</h2>
           <p>{t("review.subtitle")}</p>
         </div>
 
         <div className="review-header-actions">
           <button className="btn secondary">{t("review.reprocess")}</button>
-
           <button className="btn primary">{t("review.confirm")}</button>
-
           <button className="btn outline">{t("review.export")}</button>
         </div>
       </div>
@@ -42,44 +52,21 @@ const Review = () => {
         <div className="review-panel document-view">
           <h4>{t("review.original")}</h4>
 
-          {!file && (
-            <div className="document-placeholder">📄 {t("review.preview")}</div>
+          {!file && <div className="document-placeholder">📄</div>}
+
+          {file?.type.startsWith("image") && (
+            <img src={file.preview_url} className="review-image" />
           )}
 
-          {file && file.type.startsWith("image") && (
-            <img
-              src={file.preview_url}
-              alt={file.original_name}
-              className="review-image"
-            />
-          )}
-
-          {file && file.type === "application/pdf" && (
-            <iframe
-              src={file.preview_url}
-              title="PDF Preview"
-              className="review-pdf"
-            />
+          {file?.type === "application/pdf" && (
+            <iframe src={file.preview_url} className="review-pdf" />
           )}
         </div>
 
+        {/* DYNAMIC FORM */}
         <div className="review-panel data-view">
           <h4>{t("review.extracted")}</h4>
-
-          <div className="form-group">
-            <label>{t("review.invoiceNo")}</label>
-            <input type="text" />
-          </div>
-
-          <div className="form-group">
-            <label>{t("review.date")}</label>
-            <input type="date" defaultValue="2026-01-12" />
-          </div>
-
-          <div className="form-group">
-            <label>{t("review.customer")}</label>
-            <input type="text" defaultValue="ABC Corporation" />
-          </div>
+          {renderObject(formData, handleChange)}
         </div>
       </div>
     </div>
