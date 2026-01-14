@@ -21,6 +21,8 @@ const Review = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const lang = i18n.language || "en";
+  const langKey = lang.startsWith("ja") ? "ja" : "en";
+
 
   const { result, processOcr, isLoading } = useOcrStore();
   const file = result?.file;
@@ -84,14 +86,14 @@ const Review = () => {
     }
   };
 
-  const handleExport = (type) => {
-    if (type === "csv") {
-      exportToCSV(formData);
-    } else {
-      exportToExcel(formData);
-    }
-    setShowExport(false);
-  };
+const handleExport = (type) => {
+  if (type === "csv") {
+    exportToCSV(formData, langKey);
+  } else {
+    exportToExcel(formData, langKey);
+  }
+  setShowExport(false);
+};
 
   return (
     <div className="review-page">
