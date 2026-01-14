@@ -49,6 +49,12 @@
       font-weight: 600;
       color: #374151;
     }
+
+    &.hedding-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
   }
 
   .document-view {
@@ -143,6 +149,17 @@
       &:hover {
         background-color: #eff6ff;
       }
+    }
+
+    &.upload-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+    background-color: #16a34a;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
     }
   }
 

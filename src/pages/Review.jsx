@@ -4,6 +4,7 @@ import useOcrStore from "../store/ocrStore";
 import renderObject from "./DynamicForm";
 import { exportToCSV, exportToExcel } from "../utils/exportUtils";
 import "./Review.scss";
+import { useNavigate } from "react-router-dom";
 
 const DataLoader = () => {
   const { t } = useTranslation();
@@ -17,6 +18,7 @@ const DataLoader = () => {
 };
 
 const Review = () => {
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const lang = i18n.language || "en";
 
@@ -68,6 +70,11 @@ const Review = () => {
     setIsConfirmed((prev) => !prev);
   };
 
+  const handleUploadClick = () => {
+    navigate("/upload");
+    setFormData({});
+  };
+
   const handleReprocess = async () => {
     try {
       setFormData({});
@@ -107,11 +114,7 @@ const Review = () => {
             className={`btn ${isConfirmed ? "secondary" : "primary"}`}
             onClick={handleConfirm}
           >
-            {
-              isConfirmed
-                ? t("review.edit")
-                : t("review.confirm")
-            }
+            {isConfirmed ? t("review.edit") : t("review.confirm")}
           </button>
 
           <button className="btn outline" onClick={() => setShowExport(true)}>
@@ -122,7 +125,13 @@ const Review = () => {
 
       <div className="review-body">
         <div className="review-panel document-view">
-          <h4>{t("review.original")}</h4>
+          <div className="review-panel hedding-section">
+            <h4>{t("review.original")}</h4>
+
+            <button className="btn upload-btn" onClick={handleUploadClick}>
+              {t("review.upload_new")}
+            </button>
+          </div>
 
           {!file && <div className="document-placeholder">📄</div>}
 

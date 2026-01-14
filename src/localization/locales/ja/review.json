@@ -15,6 +15,8 @@
     "processing": "処理中",
     "confirmed": "確認済み",
     "edit": "編集",
-    "cancel": "キャンセル"
+    "cancel": "キャンセル",
+    "back": "戻る",
+    "upload_new": "新規アップロード"
   }
 }
