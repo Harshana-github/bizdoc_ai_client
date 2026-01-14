@@ -191,4 +191,33 @@
       transform: translateX(300%);
     }
   }
+
+  .upload-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+
+  .alert-icon {
+    font-size: 18px;
+  }
+
+  .alert-text {
+    flex: 1;
+  }
+
+  .alert-close {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #856404;
+  }
 }

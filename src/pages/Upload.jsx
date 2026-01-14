@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { PDFDocument } from "pdf-lib";
+
 import useOcrStore from "../store/ocrStore";
 import "./Upload.scss";
 
@@ -10,6 +12,7 @@ const Upload = () => {
   const fileInputRef = useRef(null);
 
   const [previewFile, setPreviewFile] = useState(null);
+  const [uiError, setUiError] = useState(null);
 
   const { file, setFile, processOcr, isLoading, error } = useOcrStore();
 
@@ -17,9 +20,59 @@ const Upload = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (e) => {
+  const MAX_FILE_SIZE_MB = 11;
+  const ALLOWED_TYPES = [
+    "application/pdf",
+    "image/jpeg",
+    "image/png",
+    "image/jpg",
+  ];
+
+  const validatePdfPages = async (file) => {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(arrayBuffer);
+    return pdfDoc.getPageCount();
+  };
+
+  const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
+
+    setUiError(null);
+
+    if (!ALLOWED_TYPES.includes(selectedFile.type)) {
+      setUiError({ key: "upload.invalidType" });
+      e.target.value = "";
+      return;
+    }
+
+    const fileSizeMB = selectedFile.size / (1024 * 1024);
+    if (fileSizeMB > MAX_FILE_SIZE_MB) {
+      setUiError({
+        key: "upload.fileTooLarge",
+        params: { size: MAX_FILE_SIZE_MB },
+      });
+      e.target.value = "";
+      return;
+    }
+
+    // PDF page count validation
+    if (selectedFile.type === "application/pdf") {
+      try {
+        const pages = await validatePdfPages(selectedFile);
+
+        if (pages > 1) {
+          setUiError({ key: "upload.pdfMultiplePages" });
+          e.target.value = "";
+          return;
+        }
+      } catch (err) {
+        console.error(err);
+        setUiError({ key: "upload.pdfReadError" });
+        e.target.value = "";
+        return;
+      }
+    }
 
     setFile(selectedFile);
     setPreviewFile(selectedFile);
@@ -49,6 +102,16 @@ const Upload = () => {
     <div className="upload-container">
       <h2 className="upload-title">{t("upload.title")}</h2>
       <p className="upload-subtitle">{t("upload.subtitle")}</p>
+
+      {uiError && (
+        <div className="upload-alert">
+          <span className="alert-icon">⚠️</span>
+          <span className="alert-text">{t(uiError.key, uiError.params)}</span>
+          <button className="alert-close" onClick={() => setUiError(null)}>
+            ✕
+          </button>
+        </div>
+      )}
 
       <div className="upload-layout">
         {/* LEFT */}

@@ -9,6 +9,10 @@
     "preview": "Preview",
     "clear": "Clear",
     "process": "Process OCR",
-    "processing": "........"
+    "processing": "........",
+    "invalidType": "Only PDF, JPG, JPEG, and PNG files are allowed.",
+    "fileTooLarge": "File size must be less than {{size}}MB.",
+    "pdfMultiplePages": "Only single-page PDF documents are allowed.",
+    "pdfReadError": "Unable to read the PDF file. Please try another file."
   }
 }

@@ -9,6 +9,10 @@
     "preview": "プレビュー",
     "clear": "クリア",
     "process": "OCRを実行",
-    "processing": "........"
+    "processing": "........",
+    "invalidType": "PDF、JPG、JPEG、PNGファイルのみアップロードできます。",
+    "fileTooLarge": "ファイルサイズは{{size}}MB以下である必要があります。",
+    "pdfMultiplePages": "PDFは1ページのみアップロードできます。",
+    "pdfReadError": "PDFファイルを読み取れませんでした。別のファイルをお試しください。"
   }
 }
