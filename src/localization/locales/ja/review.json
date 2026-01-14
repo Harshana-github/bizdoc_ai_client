@@ -12,6 +12,8 @@
     "export": "エクスポート",
     "reprocess": "OCRを再実行",
     "extracting": "データを抽出しています...",
-    "processing": "処理中"
+    "processing": "処理中",
+    "confirmed": "確認済み",
+    "edit": "編集"
   }
 }

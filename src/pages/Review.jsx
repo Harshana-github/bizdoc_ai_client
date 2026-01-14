@@ -26,6 +26,7 @@ const Review = () => {
 
   const [formData, setFormData] = useState({});
   const [showExport, setShowExport] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   useEffect(() => {
     try {
@@ -37,6 +38,7 @@ const Review = () => {
       const parsed = JSON.parse(clean);
 
       setFormData(parsed);
+      setIsConfirmed(false);
     } catch (err) {
       console.error("Failed to parse OCR JSON", err);
       setFormData({});
@@ -44,6 +46,8 @@ const Review = () => {
   }, [ocr]);
 
   const handleChange = (path, value) => {
+    if (isConfirmed) return;
+
     setFormData((prev) => {
       const updated = structuredClone(prev);
 
@@ -58,6 +62,10 @@ const Review = () => {
       obj[keys[keys.length - 1]] = value;
       return updated;
     });
+  };
+
+  const handleConfirm = () => {
+    setIsConfirmed((prev) => !prev);
   };
 
   const handleReprocess = async () => {
@@ -95,7 +103,16 @@ const Review = () => {
             {isLoading ? t("review.processing") : t("review.reprocess")}
           </button>
 
-          <button className="btn primary">{t("review.confirm")}</button>
+          <button
+            className={`btn ${isConfirmed ? "secondary" : "primary"}`}
+            onClick={handleConfirm}
+          >
+            {
+              isConfirmed
+                ? t("review.edit")
+                : t("review.confirm")
+            }
+          </button>
 
           <button className="btn outline" onClick={() => setShowExport(true)}>
             {t("review.export")}
@@ -134,7 +151,7 @@ const Review = () => {
           ) : Object.keys(formData).length === 0 ? (
             <p>No data extracted</p>
           ) : (
-            renderObject(formData, handleChange, "", lang)
+            renderObject(formData, handleChange, "", lang, isConfirmed)
           )}
         </div>
       </div>

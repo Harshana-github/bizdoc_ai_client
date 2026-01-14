@@ -12,6 +12,8 @@
     "export": "Export",
     "reprocess": "Reprocess OCR",
     "extracting": "Extracting data...",
-    "processing": "Processing"
+    "processing": "Processing",
+    "confirmed" : "Confirmed",
+    "edit": "Edit"
   }
 }
