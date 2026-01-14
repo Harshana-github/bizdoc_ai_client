@@ -13,10 +13,11 @@
     "reprocess": "Reprocess OCR",
     "extracting": "Extracting data...",
     "processing": "Processing",
-    "confirmed" : "Confirmed",
+    "confirmed": "Confirmed",
     "edit": "Edit",
     "cancel": "Cancel",
-    "back":"Back",
-    "upload_new":"Upload New"
+    "back": "Back",
+    "upload_new": "Upload New",
+    "info": "\"BizDoc AI\" can make mistakes. Check important info."
   }
 }

@@ -123,6 +123,8 @@ const Review = () => {
         </div>
       </div>
 
+      <p className="info">{t("review.info")}</p>
+
       <div className="review-body">
         <div className="review-panel document-view">
           <div className="review-panel hedding-section">
