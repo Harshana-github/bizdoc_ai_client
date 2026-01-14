@@ -20,7 +20,7 @@ const Upload = () => {
     fileInputRef.current?.click();
   };
 
-  const MAX_FILE_SIZE_MB = 11;
+  const MAX_FILE_SIZE_MB = 3;
   const ALLOWED_TYPES = [
     "application/pdf",
     "image/jpeg",
