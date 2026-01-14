@@ -163,7 +163,7 @@ const Review = () => {
             <button onClick={() => handleExport("excel")}>Excel (.xlsx)</button>
             <button onClick={() => handleExport("csv")}>CSV (.csv)</button>
             <button onClick={() => setShowExport(false)}>
-              {t("common.cancel")}
+              {t("review.cancel")}
             </button>
           </div>
         </div>

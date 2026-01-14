@@ -14,6 +14,7 @@
     "extracting": "データを抽出しています...",
     "processing": "処理中",
     "confirmed": "確認済み",
-    "edit": "編集"
+    "edit": "編集",
+    "cancel": "キャンセル"
   }
 }
