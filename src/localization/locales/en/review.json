@@ -10,6 +10,8 @@
     "customer": "Customer Name",
     "confirm": "Confirm",
     "export": "Export",
-    "reprocess": "Reprocess OCR"
+    "reprocess": "Reprocess OCR",
+    "extracting": "Extracting data...",
+    "processing": "Processing"
   }
 }

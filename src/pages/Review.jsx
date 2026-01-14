@@ -5,20 +5,31 @@ import renderObject from "./DynamicForm";
 import { exportToCSV, exportToExcel } from "../utils/exportUtils";
 import "./Review.scss";
 
+const DataLoader = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="data-loader">
+      <div className="spinner" />
+      <p>{t("review.extracting")}</p>
+    </div>
+  );
+};
+
 const Review = () => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language || "en";
 
-  const { result } = useOcrStore();
+  const { result, processOcr, isLoading } = useOcrStore();
   const file = result?.file;
   const ocr = result?.ocr;
 
   const [formData, setFormData] = useState({});
-  console.log(formData)
   const [showExport, setShowExport] = useState(false);
 
   useEffect(() => {
     try {
+      if (!ocr || ocr.error) return;
       const content = ocr?.data?.choices?.[0]?.message?.content;
       if (!content) return;
 
@@ -28,6 +39,7 @@ const Review = () => {
       setFormData(parsed);
     } catch (err) {
       console.error("Failed to parse OCR JSON", err);
+      setFormData({});
     }
   }, [ocr]);
 
@@ -48,6 +60,15 @@ const Review = () => {
     });
   };
 
+  const handleReprocess = async () => {
+    try {
+      setFormData({});
+      await processOcr();
+    } catch (err) {
+      console.error("Reprocess failed", err);
+    }
+  };
+
   const handleExport = (type) => {
     if (type === "csv") {
       exportToCSV(formData);
@@ -66,7 +87,13 @@ const Review = () => {
         </div>
 
         <div className="review-header-actions">
-          <button className="btn secondary">{t("review.reprocess")}</button>
+          <button
+            className="btn secondary"
+            onClick={handleReprocess}
+            disabled={isLoading}
+          >
+            {isLoading ? t("review.processing") : t("review.reprocess")}
+          </button>
 
           <button className="btn primary">{t("review.confirm")}</button>
 
@@ -102,7 +129,9 @@ const Review = () => {
         <div className="review-panel data-view">
           <h4>{t("review.extracted")}</h4>
 
-          {Object.keys(formData).length === 0 ? (
+          {isLoading ? (
+            <DataLoader />
+          ) : Object.keys(formData).length === 0 ? (
             <p>No data extracted</p>
           ) : (
             renderObject(formData, handleChange, "", lang)
