@@ -16,7 +16,7 @@ const HistoryDetails = () => {
 
   useEffect(() => {
     loadOcrById(Number(id));
-  }, [id]);
+  }, [loadOcrById, id]);
 
   if (isLoading) return <p>{t("history_details.loading")}</p>;
 

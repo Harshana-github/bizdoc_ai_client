@@ -18,7 +18,7 @@ const History = () => {
 
   useEffect(() => {
     fetchHistory();
-  }, []);
+  }, [fetchHistory]);
 
   const handleView = async (id) => {
     await loadOcrById(id);
@@ -64,6 +64,7 @@ const History = () => {
                       href={`${process.env.REACT_APP_ASSET_BASE_URL}/storage/${item.file_path}`}
                       target="_blank"
                       className="file-link"
+                      rel="noreferrer"
                     >
                       {item.file_path.split("/").pop()}
                     </a>
