@@ -20,11 +20,6 @@ const History = () => {
     fetchHistory();
   }, [fetchHistory]);
 
-  const handleView = async (id) => {
-    await loadOcrById(id);
-    navigate("/review");
-  };
-
   const getDocumentType = (data) => {
     try {
       const parsed = typeof data === "string" ? JSON.parse(data) : data;
