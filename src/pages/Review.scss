@@ -57,6 +57,12 @@
     }
   }
 
+  .extracted-heading-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   .document-view {
     min-height: 70vh;
   }
@@ -231,8 +237,25 @@
     }
   }
 
-  .info{
-    font-size:x-small;
+  .info {
+    font-size: x-small;
     color: #7b7e86;
+  }
+
+  .icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+
+    svg {
+      color: #333;
+    }
+
+    &:hover svg {
+      color: #1976d2;
+    }
   }
 }

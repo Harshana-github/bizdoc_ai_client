@@ -5,6 +5,7 @@ import renderObject from "./DynamicForm";
 import { exportToCSV, exportToExcel } from "../utils/exportUtils";
 import "./Review.scss";
 import { useNavigate } from "react-router-dom";
+import { FaSave, FaEdit } from "react-icons/fa";
 
 const DataLoader = () => {
   const { t } = useTranslation();
@@ -23,8 +24,8 @@ const Review = () => {
   const lang = i18n.language || "en";
   const langKey = lang.startsWith("ja") ? "ja" : "en";
 
-
-  const { result, processOcr, isLoading } = useOcrStore();
+  const { result, processOcr, isLoading, saveOcrResult, savedOcrId } =
+    useOcrStore();
   const file = result?.file;
   const ocr = result?.ocr;
 
@@ -86,14 +87,14 @@ const Review = () => {
     }
   };
 
-const handleExport = (type) => {
-  if (type === "csv") {
-    exportToCSV(formData, langKey);
-  } else {
-    exportToExcel(formData, langKey);
-  }
-  setShowExport(false);
-};
+  const handleExport = (type) => {
+    if (type === "csv") {
+      exportToCSV(formData, langKey);
+    } else {
+      exportToExcel(formData, langKey);
+    }
+    setShowExport(false);
+  };
 
   return (
     <div className="review-page">
@@ -157,8 +158,20 @@ const handleExport = (type) => {
         </div>
 
         <div className="review-panel data-view">
-          <h4>{t("review.extracted")}</h4>
-
+          <div className="extracted-heading-section">
+            <h4>{t("review.extracted")}</h4>
+            <button
+              className="icon-btn"
+              aria-label={savedOcrId ? "Update" : "Save"}
+              title={savedOcrId ? "Update" : "Save"}
+              onClick={() => {
+                saveOcrResult(formData);
+              }}
+              disabled={isLoading}
+            >
+              {savedOcrId ? <FaEdit size={16} /> : <FaSave size={16} />}
+            </button>
+          </div>
           {isLoading ? (
             <DataLoader />
           ) : Object.keys(formData).length === 0 ? (

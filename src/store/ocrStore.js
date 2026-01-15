@@ -8,6 +8,7 @@ const useOcrStore = create(
       file: null,
       result: null,
       isLoading: false,
+      savedOcrId: null,
       error: null,
 
       setFile: (file) => set({ file }),
@@ -17,6 +18,7 @@ const useOcrStore = create(
           file: null,
           result: null,
           error: null,
+          savedOcrId: null,
         }),
 
       processOcr: async () => {
@@ -45,6 +47,7 @@ const useOcrStore = create(
           set({
             result: response.data,
             isLoading: false,
+            savedOcrId: null,
           });
 
           return response.data;
@@ -67,6 +70,42 @@ const useOcrStore = create(
       },
 
       clearError: () => set({ error: null }),
+
+      saveOcrResult: async (updatedData = null) => {
+        const { result, savedOcrId } = get();
+
+        if (!result?.file?.stored_path) {
+          set({ error: "File path not found. Please re-upload." });
+          return;
+        }
+
+        set({ isLoading: true, error: null });
+
+        try {
+          const payload = {
+            id: savedOcrId ?? null,
+            file_path: result.file.stored_path,
+            ocr_data: updatedData ?? result.ocr,
+          };
+
+          const response = await customFetch.post("/ocr/save", payload);
+
+          set({
+            isLoading: false,
+            savedOcrId: response.data.data.id,
+          });
+
+          return response.data;
+        } catch (err) {
+          set({
+            error:
+              err?.response?.data?.message || err?.message || "Save failed",
+            isLoading: false,
+          });
+
+          throw err;
+        }
+      },
     }),
     { name: "OcrStore" }
   )
