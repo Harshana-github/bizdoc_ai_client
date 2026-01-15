@@ -18,6 +18,13 @@
     "cancel": "キャンセル",
     "back": "戻る",
     "upload_new": "新規アップロード",
-    "info": "「BizDoc AI」は誤りを含む可能性があります。重要な情報は必ず確認してください。"
+    "info": "「BizDoc AI」は誤りを含む可能性があります。重要な情報は必ず確認してください。",
+    "saved_success": "正常に保存されました",
+    "updated_success": "正常に更新されました",
+    "save_failed": "保存に失敗しました",
+    "confirmed_success": "正常に確認されました",
+    "edit_mode": "編集モードになりました",
+    "export_success": "正常にエクスポートされました",
+    "export_failed": "エクスポートに失敗しました"
   }
 }

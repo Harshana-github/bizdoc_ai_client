@@ -32,6 +32,7 @@ const Review = () => {
   const [formData, setFormData] = useState({});
   const [showExport, setShowExport] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [alert, setAlert] = useState(null);
 
   useEffect(() => {
     try {
@@ -70,7 +71,16 @@ const Review = () => {
   };
 
   const handleConfirm = () => {
-    setIsConfirmed((prev) => !prev);
+    setIsConfirmed((prev) => {
+      const next = !prev;
+
+      showAlert(
+        "success",
+        next ? t("review.confirmed_success") : t("review.edit_mode")
+      );
+
+      return next;
+    });
   };
 
   const handleUploadClick = () => {
@@ -80,6 +90,7 @@ const Review = () => {
 
   const handleReprocess = async () => {
     try {
+      setAlert(null);
       setFormData({});
       await processOcr();
     } catch (err) {
@@ -88,12 +99,42 @@ const Review = () => {
   };
 
   const handleExport = (type) => {
-    if (type === "csv") {
-      exportToCSV(formData, langKey);
-    } else {
-      exportToExcel(formData, langKey);
+    try {
+      if (type === "csv") {
+        exportToCSV(formData, langKey);
+      } else {
+        exportToExcel(formData, langKey);
+      }
+
+      showAlert("success", t("review.export_success"));
+      setShowExport(false);
+    } catch (err) {
+      console.error("Export failed", err);
+      showAlert("error", t("review.export_failed"), 5000);
     }
-    setShowExport(false);
+  };
+
+  const handleSaveOrUpdate = async () => {
+    try {
+      await saveOcrResult(formData);
+
+      showAlert(
+        "success",
+        savedOcrId ? t("review.updated_success") : t("review.saved_success")
+      );
+    } catch (err) {
+      showAlert("error", err?.message || t("review.save_failed"), 5000);
+    }
+  };
+
+  const showAlert = (type, message, timeout = 3000) => {
+    setAlert({ type, message });
+
+    if (timeout) {
+      setTimeout(() => {
+        setAlert(null);
+      }, timeout);
+    }
   };
 
   return (
@@ -127,6 +168,23 @@ const Review = () => {
       </div>
 
       <p className="info">{t("review.info")}</p>
+      {alert && (
+        <div
+          className={`upload-alert ${
+            alert.type === "error" ? "error" : "success"
+          }`}
+        >
+          <span className="alert-icon">
+            {alert.type === "error" ? "❌" : "✅"}
+          </span>
+
+          <span className="alert-text">{alert.message}</span>
+
+          <button className="alert-close" onClick={() => setAlert(null)}>
+            ✕
+          </button>
+        </div>
+      )}
 
       <div className="review-body">
         <div className="review-panel document-view">
@@ -164,9 +222,7 @@ const Review = () => {
               className="icon-btn"
               aria-label={savedOcrId ? "Update" : "Save"}
               title={savedOcrId ? "Update" : "Save"}
-              onClick={() => {
-                saveOcrResult(formData);
-              }}
+              onClick={handleSaveOrUpdate}
               disabled={isLoading}
             >
               {savedOcrId ? <FaEdit size={16} /> : <FaSave size={16} />}

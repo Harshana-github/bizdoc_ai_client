@@ -18,6 +18,13 @@
     "cancel": "Cancel",
     "back": "Back",
     "upload_new": "Upload New",
-    "info": "\"BizDoc AI\" can make mistakes. Check important info."
+    "info": "\"BizDoc AI\" can make mistakes. Check important info.",
+    "saved_success": "Successfully saved",
+    "updated_success": "Successfully updated",
+    "save_failed": "Failed to save data",
+    "confirmed_success": "Successfully confirmed",
+    "edit_mode": "Edit mode enabled",
+    "export_success": "Exported successfully",
+    "export_failed": "Export failed"
   }
 }
