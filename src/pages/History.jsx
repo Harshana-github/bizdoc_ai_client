@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useOcrStore from "../store/ocrStore";
 import "./History.scss";
 import { ROUTES } from "../routes/routes";
@@ -11,8 +11,7 @@ const History = () => {
   const {
     history = [],
     historyLoading,
-    fetchHistory,
-    loadOcrById,
+    fetchHistory
   } = useOcrStore();
 
   useEffect(() => {
