@@ -13,6 +13,7 @@ const Upload = () => {
 
   const [previewFile, setPreviewFile] = useState(null);
   const [uiError, setUiError] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const { file, setFile, processOcr, isLoading, error } = useOcrStore();
 
@@ -78,6 +79,28 @@ const Upload = () => {
     setPreviewFile(selectedFile);
   };
 
+  // drag and drop file part
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const droppedFile = e.dataTransfer.files[0];
+    if (!droppedFile) return;
+
+    // reuse existing validation logic
+    const fakeEvent = { target: { files: [droppedFile], value: "" } };
+    await handleFileChange(fakeEvent);
+  };
+
   const handleClearAll = () => {
     setFile(null);
     setPreviewFile(null);
@@ -103,6 +126,7 @@ const Upload = () => {
       <h2 className="upload-title">{t("upload.title")}</h2>
       <p className="upload-subtitle">{t("upload.subtitle")}</p>
 
+
       {uiError && (
         <div className="upload-alert">
           <span className="alert-icon">⚠️</span>
@@ -116,7 +140,12 @@ const Upload = () => {
       <div className="upload-layout">
         {/* LEFT */}
         <div className="upload-card">
-          <div className="upload-dropzone">
+          <div
+            className={`upload-dropzone ${isDragging ? "dragging" : ""}`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
             <div className="upload-icon">📄</div>
             <p className="upload-text">{t("upload.dragDrop")}</p>
             <span className="upload-hint">{t("upload.formats")}</span>
@@ -137,6 +166,15 @@ const Upload = () => {
               {t("upload.browse")}
             </button>
           </div>
+          {!isLoading && (
+            <button
+              className="process-btn"
+              disabled={!file}
+              onClick={handleProcess}
+            >
+              {t("upload.process")}
+            </button>
+          )}
         </div>
 
         {/* RIGHT */}
@@ -174,16 +212,6 @@ const Upload = () => {
       </div>
 
       <div className="upload-actions">
-        {!isLoading && (
-          <button
-            className="process-btn"
-            disabled={!file}
-            onClick={handleProcess}
-          >
-            {t("upload.process")}
-          </button>
-        )}
-
         {isLoading && (
           <div className="processing-bar">
             <div className="processing-bar-fill" />

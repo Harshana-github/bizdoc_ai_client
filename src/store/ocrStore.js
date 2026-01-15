@@ -39,7 +39,6 @@ const useOcrStore = create(
           }
 
           const response = await customFetch.post("/ocr/process", formData, {
-            // same trick you used before (IMPORTANT)
             skipDefaultContentType: true,
           });
 

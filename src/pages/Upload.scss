@@ -19,6 +19,9 @@
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .upload-dropzone {
@@ -219,5 +222,10 @@
     font-size: 16px;
     cursor: pointer;
     color: #856404;
+  }
+
+  .upload-dropzone.dragging {
+    border: 2px dashed #4a90e2;
+    background-color: rgba(74, 144, 226, 0.08);
   }
 }
