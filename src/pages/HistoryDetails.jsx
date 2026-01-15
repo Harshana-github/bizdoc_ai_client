@@ -18,9 +18,9 @@ const HistoryDetails = () => {
     loadOcrById(Number(id));
   }, [id]);
 
-  if (isLoading) return <p>{t("common.loading")}</p>;
+  if (isLoading) return <p>{t("history_details.loading")}</p>;
 
-  if (!result?.ocr) return <p>{t("history.no_data")}</p>;
+  if (!result?.ocr) return <p>{t("history_details.no_data")}</p>;
 
   return (
     <div className="history-details-page">

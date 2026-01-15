@@ -11,6 +11,12 @@ const useOcrStore = create(
       savedOcrId: null,
       error: null,
 
+      processCount: {
+        total: 0,
+        user: 0,
+      },
+      processCountLoading: false,
+
       setFile: (file) => set({ file }),
 
       clearFile: () =>
@@ -150,6 +156,26 @@ const useOcrStore = create(
             isLoading: false,
           });
           throw err;
+        }
+      },
+
+      fetchProcessCount: async () => {
+        set({ processCountLoading: true, error: null });
+
+        try {
+          const response = await customFetch.get("/ocr/process-count");
+
+          set({
+            processCount: response.data.count,
+            processCountLoading: false,
+          });
+
+          return response.data.count;
+        } catch (err) {
+          set({
+            processCountLoading: false,
+            error: err?.message || "Failed to load process count",
+          });
         }
       },
     }),

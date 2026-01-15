@@ -9,10 +9,14 @@
     "action": "Action",
     "view": "View",
     "completed": "Completed",
-    "pending": "Pending Review"
+    "pending": "Pending Review",
+    "loading": "Loading",
+    "empty": "Empty"
   },
   "history_details": {
     "back_to_history": "Back to History",
-    "details_title": "OCR Details"
+    "details_title": "OCR Details",
+    "no_data": "No data",
+    "loading": "Loading"
   }
 }
