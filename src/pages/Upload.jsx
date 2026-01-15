@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { PDFDocument } from "pdf-lib";
@@ -14,6 +14,7 @@ const Upload = () => {
   const [previewFile, setPreviewFile] = useState(null);
   const [uiError, setUiError] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [alert, setAlert] = useState(null);
 
   const { file, setFile, processOcr, isLoading, error } = useOcrStore();
 
@@ -119,6 +120,15 @@ const Upload = () => {
     }
   };
 
+  useEffect(() => {
+    if (error) {
+      setAlert({
+        type: "error",
+        message: error,
+      });
+    }
+  }, [error]);
+
   const getPreviewUrl = (file) => URL.createObjectURL(file);
 
   return (
@@ -126,12 +136,25 @@ const Upload = () => {
       <h2 className="upload-title">{t("upload.title")}</h2>
       <p className="upload-subtitle">{t("upload.subtitle")}</p>
 
+      {(uiError || alert) && (
+        <div
+          className={`upload-alert ${alert?.type === "error" ? "error" : ""}`}
+        >
+          <span className="alert-icon">
+            {alert?.type === "error" ? "❌" : "⚠️"}
+          </span>
 
-      {uiError && (
-        <div className="upload-alert">
-          <span className="alert-icon">⚠️</span>
-          <span className="alert-text">{t(uiError.key, uiError.params)}</span>
-          <button className="alert-close" onClick={() => setUiError(null)}>
+          <span className="alert-text">
+            {alert ? alert.message : t(uiError.key, uiError.params)}
+          </span>
+
+          <button
+            className="alert-close"
+            onClick={() => {
+              setUiError(null);
+              setAlert(null);
+            }}
+          >
             ✕
           </button>
         </div>
@@ -218,8 +241,6 @@ const Upload = () => {
           </div>
         )}
       </div>
-
-      {error && <p className="upload-error">{error}</p>}
     </div>
   );
 };
