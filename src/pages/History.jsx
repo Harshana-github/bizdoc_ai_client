@@ -7,7 +7,6 @@ import { ROUTES } from "../routes/routes";
 
 const History = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
   const {
     history = [],

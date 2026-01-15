@@ -41,11 +41,6 @@ const useOcrStore = create(
           const formData = new FormData();
           formData.append("document", file, file.name);
 
-          // Debug FormData (correct way)
-          for (let pair of formData.entries()) {
-            // console.log("FormData:", pair[0], pair[1]);
-          }
-
           const response = await customFetch.post("/ocr/process", formData, {
             skipDefaultContentType: true,
           });
