@@ -10,5 +10,9 @@
     "view": "View",
     "completed": "Completed",
     "pending": "Pending Review"
+  },
+  "history_details": {
+    "back_to_history": "Back to History",
+    "details_title": "OCR Details"
   }
 }

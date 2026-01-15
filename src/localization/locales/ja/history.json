@@ -10,5 +10,9 @@
     "view": "表示",
     "completed": "完了",
     "pending": "確認待ち"
+  },
+  "history_details": {
+    "back_to_history": "履歴に戻る",
+    "details_title": "OCR詳細"
   }
 }

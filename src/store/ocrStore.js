@@ -106,6 +106,52 @@ const useOcrStore = create(
           throw err;
         }
       },
+
+      fetchHistory: async () => {
+        set({ historyLoading: true, error: null });
+
+        try {
+          const response = await customFetch.get("/ocr/history");
+
+          set({
+            history: response?.data?.data?.data ?? [],
+            historyLoading: false,
+          });
+        } catch (err) {
+          set({
+            history: [],
+            error: err?.message || "Failed to load history",
+            historyLoading: false,
+          });
+        }
+      },
+
+      loadOcrById: async (id) => {
+        set({ isLoading: true, error: null });
+
+        try {
+          const response = await customFetch.get(`/ocr/${id}`);
+
+          set({
+            result: {
+              file: {
+                stored_path: response.data.data.file_path,
+              },
+              ocr: response.data.data.data,
+            },
+            savedOcrId: response.data.data.id,
+            isLoading: false,
+          });
+
+          return response.data.data;
+        } catch (err) {
+          set({
+            error: err?.message || "Failed to load OCR",
+            isLoading: false,
+          });
+          throw err;
+        }
+      },
     }),
     { name: "OcrStore" }
   )

@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ROUTE_TITLES } from "../routes/routes";
 import useAuthStore from "../store/useAuthStore";
+import { MdLanguage } from "react-icons/md";
+
 import "./Header.scss";
 
 const Header = () => {
@@ -27,7 +29,7 @@ const Header = () => {
   };
 
   const handleLogout = async () => {
-    await logout(); 
+    await logout();
     navigate("/login");
   };
 
@@ -54,7 +56,8 @@ const Header = () => {
             onClick={() => changeLanguage("en")}
             title="English"
           >
-            🇬🇧
+            <MdLanguage size={18} />
+            <span>EN</span>
           </button>
 
           <button
@@ -62,7 +65,8 @@ const Header = () => {
             onClick={() => changeLanguage("ja")}
             title="日本語"
           >
-            🇯🇵
+            <MdLanguage size={18} />
+            <span>日本語</span>
           </button>
 
           <div className="user-menu" ref={menuRef}>

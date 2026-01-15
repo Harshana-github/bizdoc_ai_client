@@ -1,0 +1,121 @@
+.history-preview {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 32px;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  color: #111827;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+
+  /* ---------- FIELD LAYOUT ---------- */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+
+  /* ---------- FORM GROUP ---------- */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6b7280;
+      letter-spacing: 0.02em;
+    }
+
+    input {
+      border: none;
+      background: transparent;
+      padding: 6px 0;
+      font-size: 14px;
+      color: #111827;
+      border-bottom: 1px dashed #d1d5db;
+
+      &:disabled {
+        color: #111827;
+        opacity: 1;
+        -webkit-text-fill-color: #111827;
+      }
+    }
+  }
+
+  /* ---------- FIELDSET (SECTIONS) ---------- */
+  fieldset {
+    grid-column: 1 / -1;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 8px;
+
+    legend {
+      padding: 0 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #374151;
+    }
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  /* ---------- TABLE BLOCK ---------- */
+  .table-block {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+
+    h5 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+  }
+
+  /* ---------- TABLE ---------- */
+  .editable-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+
+    thead {
+      background: #f9fafb;
+    }
+
+    th {
+      text-align: left;
+      padding: 10px;
+      font-weight: 600;
+      color: #374151;
+      border-bottom: 1px solid #e5e7eb;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-size: 13px;
+      color: #111827;
+      padding: 0;
+
+      &:disabled {
+        color: #111827;
+        opacity: 1;
+      }
+    }
+
+    tbody tr:hover {
+      background: #fafafa;
+    }
+  }
+}

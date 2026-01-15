@@ -11,6 +11,7 @@ import Dashboard from "../pages/Dashboard";
 import Upload from "../pages/Upload";
 import Review from "../pages/Review";
 import History from "../pages/History";
+import HistoryDetails from "../pages/HistoryDetails";
 
 const AppRoutes = () => {
   return (
@@ -24,6 +25,7 @@ const AppRoutes = () => {
           <Route path={ROUTES.UPLOAD} element={<Upload />} />
           <Route path={ROUTES.REVIEW} element={<Review />} />
           <Route path={ROUTES.HISTORY} element={<History />} />
+          <Route path={ROUTES.HISTORY_DETAILS} element={<HistoryDetails />} />
         </Route>
       </Route>
     </Routes>

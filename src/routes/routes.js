@@ -3,6 +3,7 @@ export const ROUTES = {
   UPLOAD: "/upload",
   REVIEW: "/review",
   HISTORY: "/history",
+  HISTORY_DETAILS: "/history/:id",
   LOGIN: "/login",
   SIGNUP: "/signup",
 };
