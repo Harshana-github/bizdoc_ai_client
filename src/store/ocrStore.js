@@ -173,6 +173,26 @@ const useOcrStore = create(
           });
         }
       },
+
+      exportOcr: async ({ doc, lang, type }) => {
+        try {
+          const response = await customFetch.post(
+            "/ocr/export",
+            {
+              doc,
+              lang,
+              type,
+            },
+            {
+              responseType: "blob",
+            }
+          );
+
+          return response.data;
+        } catch (err) {
+          throw err;
+        }
+      },
     }),
     { name: "OcrStore" }
   )

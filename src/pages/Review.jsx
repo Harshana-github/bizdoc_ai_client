@@ -24,8 +24,14 @@ const Review = () => {
   const lang = i18n.language || "en";
   const langKey = lang.startsWith("ja") ? "ja" : "en";
 
-  const { result, processOcr, isLoading, saveOcrResult, savedOcrId } =
-    useOcrStore();
+  const {
+    result,
+    processOcr,
+    isLoading,
+    saveOcrResult,
+    savedOcrId,
+    exportOcr,
+  } = useOcrStore();
   const file = result?.file;
   const ocr = result?.ocr;
 
@@ -98,13 +104,40 @@ const Review = () => {
     }
   };
 
-  const handleExport = (type) => {
+  // const handleExport = (type) => {
+  //   try {
+  //     if (type === "csv") {
+  //       exportToCSV(formData, langKey);
+  //     } else {
+  //       exportToExcel(formData, langKey);
+  //     }
+
+  //     showAlert("success", t("review.export_success"));
+  //     setShowExport(false);
+  //   } catch (err) {
+  //     console.error("Export failed", err);
+  //     showAlert("error", t("review.export_failed"), 5000);
+  //   }
+  // };
+
+  const handleExport = async (type) => {
     try {
-      if (type === "csv") {
-        exportToCSV(formData, langKey);
-      } else {
-        exportToExcel(formData, langKey);
-      }
+      const blob = await exportOcr({
+        doc: formData,
+        lang: langKey,
+        type, // "excel" | "csv"
+      });
+
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = type === "csv" ? "document.csv" : "document.xlsx";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      window.URL.revokeObjectURL(url);
 
       showAlert("success", t("review.export_success"));
       setShowExport(false);
