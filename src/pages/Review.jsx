@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import useOcrStore from "../store/ocrStore";
 import renderObject from "./DynamicForm";
-import { exportToCSV, exportToExcel } from "../utils/exportUtils";
 import "./Review.scss";
 import { useNavigate } from "react-router-dom";
 import { FaSave, FaEdit } from "react-icons/fa";
