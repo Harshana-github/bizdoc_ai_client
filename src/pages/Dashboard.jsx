@@ -29,7 +29,7 @@ const Dashboard = () => {
         <div className="dashboard-card">
           <h4>{t("dashboard.totalDocs")}</h4>
           <span className="card-value">
-            {processCountLoading ? "—" : processCount.total}
+            {processCountLoading ? "—" : processCount.user}
           </span>
         </div>
       </div>
