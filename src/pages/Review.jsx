@@ -103,22 +103,6 @@ const Review = () => {
     }
   };
 
-  // const handleExport = (type) => {
-  //   try {
-  //     if (type === "csv") {
-  //       exportToCSV(formData, langKey);
-  //     } else {
-  //       exportToExcel(formData, langKey);
-  //     }
-
-  //     showAlert("success", t("review.export_success"));
-  //     setShowExport(false);
-  //   } catch (err) {
-  //     console.error("Export failed", err);
-  //     showAlert("error", t("review.export_failed"), 5000);
-  //   }
-  // };
-
   const handleExport = async (type) => {
     try {
       const blob = await exportOcr({
