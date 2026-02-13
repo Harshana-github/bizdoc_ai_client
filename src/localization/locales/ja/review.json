@@ -25,6 +25,7 @@
     "confirmed_success": "正常に確認されました",
     "edit_mode": "編集モードになりました",
     "export_success": "正常にエクスポートされました",
-    "export_failed": "エクスポートに失敗しました"
+    "export_failed": "エクスポートに失敗しました",
+    "export_template": "テンプレートとしてエクスポート"
   }
 }

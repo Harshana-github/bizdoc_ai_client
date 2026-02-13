@@ -160,6 +160,15 @@ const Upload = () => {
         </div>
       )}
 
+      <div className="upload-actions">
+        {isLoading && (
+          <div className="processing-bar">
+            <div className="processing-bar-fill" />
+          </div>
+        )}
+        <br />
+      </div>
+
       <div className="upload-layout">
         {/* LEFT */}
         <div className="upload-card">
@@ -212,34 +221,28 @@ const Upload = () => {
             )}
           </div>
 
-          {!previewFile && (
-            <p className="preview-placeholder">{t("upload.previewHint")}</p>
-          )}
+          <div className="preview-content">
+            {!previewFile && (
+              <p className="preview-placeholder">{t("upload.previewHint")}</p>
+            )}
 
-          {previewFile && previewFile.type.startsWith("image") && (
-            <img
-              src={getPreviewUrl(previewFile)}
-              alt="Preview"
-              className="preview-image"
-            />
-          )}
+            {previewFile && previewFile.type.startsWith("image") && (
+              <img
+                src={getPreviewUrl(previewFile)}
+                alt="Preview"
+                className="preview-image"
+              />
+            )}
 
-          {previewFile && previewFile.type === "application/pdf" && (
-            <iframe
-              src={getPreviewUrl(previewFile)}
-              title="PDF Preview"
-              className="preview-pdf"
-            />
-          )}
-        </div>
-      </div>
-
-      <div className="upload-actions">
-        {isLoading && (
-          <div className="processing-bar">
-            <div className="processing-bar-fill" />
+            {previewFile && previewFile.type === "application/pdf" && (
+              <iframe
+                src={getPreviewUrl(previewFile)}
+                title="PDF Preview"
+                className="preview-pdf"
+              />
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

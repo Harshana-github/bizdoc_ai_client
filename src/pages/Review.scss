@@ -1,13 +1,14 @@
 .review-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-bottom: 24px;
+  // width: 100%;
+  // max-width: 100%;
+  padding: 0 20px 20px 20px;
+  box-sizing: border-box;
 
   .review-header {
     display: flex;
     justify-content: space-between;
-    align-items: end;
-    margin-bottom: 24px;
+    align-items: flex-end;
+    margin-bottom: 16px;
   }
 
   .review-header-left {
@@ -26,25 +27,27 @@
 
   .review-header-actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 
   .review-body {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr 2fr; /* 25% / 75% */
+    gap: 16px;
+    align-items: stretch;
   }
 
   .review-panel {
     background-color: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
 
     h4 {
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       font-size: 16px;
       font-weight: 600;
       color: #374151;
@@ -65,6 +68,17 @@
 
   .document-view {
     min-height: 70vh;
+    // position: sticky;
+    top: 20px;
+    // height: fit-content;
+    max-height: 70vh;
+  }
+
+  .review-panel.hedding-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .document-placeholder {
@@ -72,11 +86,9 @@
     background-color: #f9fafb;
     border: 1px dashed #c7d2fe;
     border-radius: 6px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     color: #6b7280;
     font-size: 14px;
   }
@@ -98,6 +110,20 @@
     width: 100%;
     height: 100%;
     border: none;
+  }
+
+  /* ================= FORM PANEL ================= */
+  .data-view {
+    overflow-y: auto;
+    padding-right: 6px;
+    border-left: 4px solid #2563eb;
+  }
+
+  .extracted-heading-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
   }
 
   /* ================= FORM ================= */
@@ -127,7 +153,9 @@
     cursor: pointer;
     font-size: 14px;
     border: none;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
 
     &.primary {
       background-color: #2563eb;
@@ -199,16 +227,65 @@
 
   .export-box {
     background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    min-width: 240px;
+    padding: 22px;
+    border-radius: 12px;
+    min-width: 280px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    animation: fadeInScale 0.2s ease;
+
+    h4 {
+      margin-bottom: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #111827;
+    }
 
     button {
-      padding: 8px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 14px;
       cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    /* Excel & CSV buttons */
+    button:not(.cancel-btn) {
+      background-color: #2563eb;
+      color: #fff;
+
+      &:hover {
+        background-color: #1d4ed8;
+      }
+    }
+
+    /* Cancel button */
+    .cancel-btn {
+      background-color: #f3f4f6;
+      color: #374151;
+      border: 1px solid #e5e7eb;
+
+      &:hover {
+        background-color: #e5e7eb;
+      }
+
+      &:active {
+        transform: scale(0.97);
+      }
+    }
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 

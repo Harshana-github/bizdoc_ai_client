@@ -25,6 +25,7 @@
     "confirmed_success": "Successfully confirmed",
     "edit_mode": "Edit mode enabled",
     "export_success": "Exported successfully",
-    "export_failed": "Export failed"
+    "export_failed": "Export failed",
+    "export_template": "Export as Template"
   }
 }

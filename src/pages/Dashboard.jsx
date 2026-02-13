@@ -1,39 +1,47 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import useOcrStore from "../store/ocrStore";
 import "./Dashboard.scss";
 
 const Dashboard = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
-  const {
-    fetchProcessCount,
-    processCount,
-    processCountLoading,
-  } = useOcrStore();
+  const { fetchProcessCount, processCount, processCountLoading } =
+    useOcrStore();
 
   useEffect(() => {
     fetchProcessCount();
   }, [fetchProcessCount]);
 
+  const handleUpload = () => {
+    navigate("/upload");
+  };
+
   return (
     <div className="dashboard-page">
-      <div className="dashboard-header">
-        <h2>{t("dashboard.title")}</h2>
-        <p className="dashboard-subtitle">
-          {t("dashboard.welcome")}
-        </p>
+      {/* HERO SECTION */}
+      <div className="dashboard-hero">
+        <h1>{t("dashboard.title")}</h1>
+        <p className="hero-subtitle">{t("dashboard.welcome")}</p>
+
+        <button className="hero-upload-btn" onClick={handleUpload}>
+          📄 {t("dashboard.uploadNew")}
+        </button>
       </div>
 
+      {/* STATS */}
       <div className="dashboard-cards">
         <div className="dashboard-card">
           <h4>{t("dashboard.totalDocs")}</h4>
           <span className="card-value">
-            {processCountLoading ? "—" : processCount.user}
+            {processCountLoading ? "—" : (processCount?.user ?? 0)}
           </span>
         </div>
       </div>
 
+      {/* INFO */}
       <div className="dashboard-info">
         <p>{t("dashboard.description")}</p>
       </div>

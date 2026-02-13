@@ -2,6 +2,7 @@
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Welcome to BizDoc AI",
+    "uploadNew": "Upload New Document",
     "description": "Manage and process your business documents efficiently.",
     "totalDocs": "Total Documents",
     "pending": "Pending Review",

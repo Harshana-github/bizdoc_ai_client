@@ -30,6 +30,7 @@ const Review = () => {
     saveOcrResult,
     savedOcrId,
     exportOcr,
+    clearFile,
   } = useOcrStore();
   const file = result?.file;
   const ocr = result?.ocr;
@@ -38,6 +39,9 @@ const Review = () => {
   const [showExport, setShowExport] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [alert, setAlert] = useState(null);
+
+  const documentType = formData?.document_type?.value?.toLowerCase() || "";
+  const isQuotation = documentType === "quotation";
 
   useEffect(() => {
     try {
@@ -81,7 +85,7 @@ const Review = () => {
 
       showAlert(
         "success",
-        next ? t("review.confirmed_success") : t("review.edit_mode")
+        next ? t("review.confirmed_success") : t("review.edit_mode"),
       );
 
       return next;
@@ -89,6 +93,7 @@ const Review = () => {
   };
 
   const handleUploadClick = () => {
+    clearFile();
     navigate("/upload");
     setFormData({});
   };
@@ -136,7 +141,7 @@ const Review = () => {
 
       showAlert(
         "success",
-        savedOcrId ? t("review.updated_success") : t("review.saved_success")
+        savedOcrId ? t("review.updated_success") : t("review.saved_success"),
       );
     } catch (err) {
       showAlert("error", err?.message || t("review.save_failed"), 5000);
@@ -258,9 +263,17 @@ const Review = () => {
         <div className="export-modal">
           <div className="export-box">
             <h4>{t("review.export")}</h4>
+            {isQuotation && (
+              <button
+                className="template-btn"
+                onClick={() => handleExport("template")}
+              >
+                {t("review.export_template")}
+              </button>
+            )}
             <button onClick={() => handleExport("excel")}>Excel (.xlsx)</button>
             <button onClick={() => handleExport("csv")}>CSV (.csv)</button>
-            <button onClick={() => setShowExport(false)}>
+            <button className="cancel-btn" onClick={() => setShowExport(false)}>
               {t("review.cancel")}
             </button>
           </div>
