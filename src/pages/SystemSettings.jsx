@@ -35,7 +35,7 @@ const SystemSettings = () => {
   useEffect(() => {
     fetchCompanyName();
     fetchDocumentTypes();
-  }, []);
+  }, [fetchCompanyName, fetchDocumentTypes]);
 
   useEffect(() => {
     setLocalCompanyName(companyName);
@@ -110,9 +110,7 @@ const SystemSettings = () => {
             value={selectedDocType}
             onChange={(e) => setSelectedDocType(e.target.value)}
           >
-            <option value="">
-              {t("settings.selectDocumentType")}
-            </option>
+            <option value="">{t("settings.selectDocumentType")}</option>
 
             {documentTypes?.map((type) => (
               <option key={type.id} value={type.id}>
@@ -134,9 +132,7 @@ const SystemSettings = () => {
                 onClick={handleTemplateUpload}
                 disabled={!templateFile || isLoading}
               >
-                {isLoading
-                  ? t("auth.loading")
-                  : t("settings.uploadTemplate")}
+                {isLoading ? t("auth.loading") : t("settings.uploadTemplate")}
               </button>
             </>
           )}
