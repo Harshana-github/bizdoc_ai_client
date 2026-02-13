@@ -26,6 +26,10 @@
     "edit_mode": "Edit mode enabled",
     "export_success": "Exported successfully",
     "export_failed": "Export failed",
-    "export_template": "Export as Template"
+    "export_template": "Export as Template",
+    "document_type_not_registered": "The document type is not registered.",
+    "template_not_configured": "The export template is not configured.",
+    "document_type_missing":"Document type missing in OCR data",
+    "template_file_missing": "The template file is missing from storage."
   }
 }

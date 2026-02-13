@@ -174,28 +174,65 @@ const useOcrStore = create(
         }
       },
 
+      // exportOcr: async ({ doc, lang, type }) => {
+      //   try {
+      //     const response = await customFetch.post(
+      //       "/ocr/export",
+      //       {
+      //         doc,
+      //         lang,
+      //         type,
+      //       },
+      //       {
+      //         responseType: "blob",
+      //       },
+      //     );
+
+      //     return response.data;
+      //   } catch (err) {
+      //     if (
+      //       err?.response?.data &&
+      //       err.response.data instanceof Blob &&
+      //       err.response.data.type === "application/json"
+      //     ) {
+      //       const text = await err.response.data.text();
+      //       const json = JSON.parse(text);
+
+      //       // replace blob with parsed JSON
+      //       err.response.data = json;
+      //     }
+
+      //     throw err;
+      //   }
+      // },
+
       exportOcr: async ({ doc, lang, type }) => {
         try {
           const response = await customFetch.post(
             "/ocr/export",
-            {
-              doc,
-              lang,
-              type,
-            },
-            {
-              responseType: "blob",
-            }
+            { doc, lang, type },
+            { responseType: "blob" },
           );
 
-          return response.data;
+          return {
+            blob: response.data,
+            headers: response.headers,
+          };
         } catch (err) {
+          if (
+            err?.response?.data instanceof Blob &&
+            err.response.data.type === "application/json"
+          ) {
+            const text = await err.response.data.text();
+            err.response.data = JSON.parse(text);
+          }
+
           throw err;
         }
       },
     }),
-    { name: "OcrStore" }
-  )
+    { name: "OcrStore" },
+  ),
 );
 
 export default useOcrStore;

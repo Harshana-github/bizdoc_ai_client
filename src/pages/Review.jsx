@@ -42,8 +42,8 @@ const Review = () => {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [alert, setAlert] = useState(null);
 
-  const documentType = formData?.document_type?.value?.toLowerCase() || "";
-  const isQuotation = documentType === "quotation";
+  // const documentType = formData?.document_type?.value?.toLowerCase() || "";
+  // const isQuotation = documentType === "quotation";
 
   useEffect(() => {
     try {
@@ -110,19 +110,63 @@ const Review = () => {
     }
   };
 
+  // const handleExport = async (type) => {
+  //   try {
+  //     const blob = await exportOcr({
+  //       doc: formData,
+  //       lang: langKey,
+  //       type, // "excel" | "csv"
+  //     });
+
+  //     const url = window.URL.createObjectURL(blob);
+
+  //     const a = document.createElement("a");
+  //     a.href = url;
+  //     a.download = type === "csv" ? "document.csv" : "document.xlsx";
+  //     document.body.appendChild(a);
+  //     a.click();
+  //     a.remove();
+
+  //     window.URL.revokeObjectURL(url);
+
+  //     showAlert("success", t("review.export_success"));
+  //     setShowExport(false);
+  //   } catch (err) {
+  //     setShowExport(false);
+  //     const errorKey = err?.response?.data?.key;
+  //     showAlert(
+  //       "error",
+  //       errorKey ? t(`review.${errorKey}`) : t("review.export_failed"),
+  //       5000,
+  //     );
+  //   }
+  // };
+
   const handleExport = async (type) => {
     try {
-      const blob = await exportOcr({
+      const response = await exportOcr({
         doc: formData,
         lang: langKey,
-        type, // "excel" | "csv"
+        type,
       });
+
+      const { blob, headers } = response;
+
+      const contentDisposition = headers["content-disposition"];
+      let fileName = "download";
+
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename="?([^"]+)"?/);
+        if (match?.[1]) {
+          fileName = match[1];
+        }
+      }
 
       const url = window.URL.createObjectURL(blob);
 
       const a = document.createElement("a");
       a.href = url;
-      a.download = type === "csv" ? "document.csv" : "document.xlsx";
+      a.download = fileName;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -132,8 +176,15 @@ const Review = () => {
       showAlert("success", t("review.export_success"));
       setShowExport(false);
     } catch (err) {
-      console.error("Export failed", err);
-      showAlert("error", t("review.export_failed"), 5000);
+      setShowExport(false);
+
+      const errorKey = err?.response?.data?.key;
+
+      showAlert(
+        "error",
+        errorKey ? t(`review.${errorKey}`) : t("review.export_failed"),
+        5000,
+      );
     }
   };
 
@@ -265,14 +316,12 @@ const Review = () => {
         <div className="export-modal">
           <div className="export-box">
             <h4>{t("review.export")}</h4>
-            {isQuotation && (
-              <button
-                className="template-btn"
-                onClick={() => handleExport("template")}
-              >
-                {t("review.export_template")}
-              </button>
-            )}
+            <button
+              className="template-btn"
+              onClick={() => handleExport("template")}
+            >
+              {t("review.export_template")}
+            </button>
             <button onClick={() => handleExport("excel")}>Excel (.xlsx)</button>
             <button onClick={() => handleExport("csv")}>CSV (.csv)</button>
             <button className="cancel-btn" onClick={() => setShowExport(false)}>
