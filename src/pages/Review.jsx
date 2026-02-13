@@ -41,6 +41,7 @@ const Review = () => {
   const [showExport, setShowExport] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [alert, setAlert] = useState(null);
+  const [isExporting, setIsExporting] = useState(false);
 
   // const documentType = formData?.document_type?.value?.toLowerCase() || "";
   // const isQuotation = documentType === "quotation";
@@ -110,40 +111,10 @@ const Review = () => {
     }
   };
 
-  // const handleExport = async (type) => {
-  //   try {
-  //     const blob = await exportOcr({
-  //       doc: formData,
-  //       lang: langKey,
-  //       type, // "excel" | "csv"
-  //     });
-
-  //     const url = window.URL.createObjectURL(blob);
-
-  //     const a = document.createElement("a");
-  //     a.href = url;
-  //     a.download = type === "csv" ? "document.csv" : "document.xlsx";
-  //     document.body.appendChild(a);
-  //     a.click();
-  //     a.remove();
-
-  //     window.URL.revokeObjectURL(url);
-
-  //     showAlert("success", t("review.export_success"));
-  //     setShowExport(false);
-  //   } catch (err) {
-  //     setShowExport(false);
-  //     const errorKey = err?.response?.data?.key;
-  //     showAlert(
-  //       "error",
-  //       errorKey ? t(`review.${errorKey}`) : t("review.export_failed"),
-  //       5000,
-  //     );
-  //   }
-  // };
-
   const handleExport = async (type) => {
     try {
+      setIsExporting(true); // start loading
+
       const response = await exportOcr({
         doc: formData,
         lang: langKey,
@@ -185,6 +156,8 @@ const Review = () => {
         errorKey ? t(`review.${errorKey}`) : t("review.export_failed"),
         5000,
       );
+    } finally {
+      setIsExporting(false); // stop loading
     }
   };
 
@@ -316,17 +289,35 @@ const Review = () => {
         <div className="export-modal">
           <div className="export-box">
             <h4>{t("review.export")}</h4>
-            <button
-              className="template-btn"
-              onClick={() => handleExport("template")}
-            >
-              {t("review.export_template")}
-            </button>
-            <button onClick={() => handleExport("excel")}>Excel (.xlsx)</button>
-            <button onClick={() => handleExport("csv")}>CSV (.csv)</button>
-            <button className="cancel-btn" onClick={() => setShowExport(false)}>
-              {t("review.cancel")}
-            </button>
+
+            {isExporting ? (
+              <div className="export-loading">
+                <div className="spinner" />
+                <p>{t("review.exporting")}</p>
+              </div>
+            ) : (
+              <>
+                <button
+                  className="template-btn"
+                  onClick={() => handleExport("template")}
+                >
+                  {t("review.export_template")}
+                </button>
+
+                <button onClick={() => handleExport("excel")}>
+                  Excel (.xlsx)
+                </button>
+
+                <button onClick={() => handleExport("csv")}>CSV (.csv)</button>
+
+                <button
+                  className="cancel-btn"
+                  onClick={() => setShowExport(false)}
+                >
+                  {t("review.cancel")}
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
