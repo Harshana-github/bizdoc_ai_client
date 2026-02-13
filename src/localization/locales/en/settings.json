@@ -7,6 +7,11 @@
     "save": "Save",
     "companyUpdated": "Company name updated successfully",
 
+    "templateUploadTitle": "Upload Template",
+    "selectDocumentType": "Select Document Type",
+    "uploadTemplate": "Upload Template",
+    "templateUploaded": "Template uploaded successfully",
+
     "clearHistoryTitle": "Clear OCR History",
     "clearHistoryDesc": "This will permanently remove all OCR results and stored files from the system.",
     "clearHistory": "Clear History",

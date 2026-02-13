@@ -3,6 +3,11 @@
   margin: 0 auto;
   padding: 20px;
 
+  max-height: 85vh;
+
+  overflow-y: auto; // ✅ vertical scroll only
+  overflow-x: hidden; // ✅ prevent horizontal scroll
+
   .settings-header {
     margin-bottom: 30px;
 
@@ -170,5 +175,48 @@
     justify-content: flex-end;
     gap: 10px;
     margin-top: 16px;
+  }
+
+  /* ================= Template Upload Section ================= */
+
+  .settings-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    select {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      background-color: #ffffff;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+      }
+    }
+
+    input[type="file"] {
+      padding: 8px;
+      font-size: 13px;
+    }
+  }
+
+  /* Info Card (Migrations + Template section) */
+  .settings-card.info {
+    border-left: 4px solid #2563eb;
+  }
+
+  /* Info Button */
+  .btn.info {
+    background-color: #2563eb;
+    color: #ffffff;
+
+    &:hover {
+      background-color: #1d4ed8;
+    }
   }
 }

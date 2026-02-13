@@ -6,6 +6,7 @@ const useSystemSettingStore = create(
   devtools(
     (set) => ({
       companyName: "",
+      documentTypes: [],
       isLoading: false,
       error: null,
       success: null,
@@ -139,9 +140,44 @@ const useSystemSettingStore = create(
           throw err;
         }
       },
+
+      fetchDocumentTypes: async () => {
+        try {
+          const res = await customFetch.get("/document-types");
+          set({ documentTypes: res.data.data });
+        } catch (err) {}
+      },
+
+      uploadTemplate: async ({ document_type_id, file }) => {
+        set({ isLoading: true, error: null, success: null });
+
+        try {
+          const formData = new FormData();
+          formData.append("document_type_id", document_type_id);
+          formData.append("file", file);
+
+          const res = await customFetch.post("/templates", formData, {
+            skipDefaultContentType: true,
+          });
+
+          set({
+            isLoading: false,
+            success: "Template uploaded successfully",
+          });
+
+          return res.data;
+        } catch (err) {
+          set({
+            isLoading: false,
+            error: err?.response?.data?.message || "Upload failed",
+          });
+
+          throw err;
+        }
+      },
     }),
-    { name: "SystemSettingStore" }
-  )
+    { name: "SystemSettingStore" },
+  ),
 );
 
 export default useSystemSettingStore;

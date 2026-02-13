@@ -1,20 +1,22 @@
 .language-switcher {
-  position: absolute;
-  bottom: 24px;
+  position: fixed;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 1000;
 
   display: flex;
   gap: 12px;
 
   button {
-    background: transparent;
+    background: white;
     border: 1px solid #e5e7eb;
     border-radius: 6px;
     padding: 6px 10px;
     font-size: 18px;
     cursor: pointer;
     transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 
     &:hover {
       background-color: #f3f4f6;

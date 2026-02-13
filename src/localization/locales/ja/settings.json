@@ -7,6 +7,11 @@
     "save": "保存",
     "companyUpdated": "会社名を更新しました",
 
+    "templateUploadTitle": "テンプレートアップロード",
+    "selectDocumentType": "書類種別を選択",
+    "uploadTemplate": "テンプレートをアップロード",
+    "templateUploaded": "テンプレートをアップロードしました",
+
     "clearHistoryTitle": "OCR履歴を削除",
     "clearHistoryDesc": "保存されたOCR結果および関連ファイルを完全に削除します。",
     "clearHistory": "履歴を削除",

@@ -11,9 +11,15 @@ const SystemSettings = () => {
     companyName,
     fetchCompanyName,
     updateCompanyName,
+
+    documentTypes,
+    fetchDocumentTypes,
+    uploadTemplate,
+
     clearOcrHistory,
     clearCache,
     runMigrations,
+
     isLoading,
     error,
     success,
@@ -21,16 +27,21 @@ const SystemSettings = () => {
   } = useSystemSettingStore();
 
   const [localCompanyName, setLocalCompanyName] = useState("");
+  const [selectedDocType, setSelectedDocType] = useState("");
+  const [templateFile, setTemplateFile] = useState(null);
   const [confirmAction, setConfirmAction] = useState(null);
 
+  /* ---------------- Init ---------------- */
   useEffect(() => {
     fetchCompanyName();
-  }, [fetchCompanyName]);
+    fetchDocumentTypes();
+  }, []);
 
   useEffect(() => {
     setLocalCompanyName(companyName);
   }, [companyName]);
 
+  /* ---------------- Confirm Modal ---------------- */
   const handleConfirm = async () => {
     try {
       if (confirmAction === "history") await clearOcrHistory();
@@ -39,6 +50,18 @@ const SystemSettings = () => {
     } catch (e) {}
 
     setConfirmAction(null);
+  };
+
+  /* ---------------- Upload Template ---------------- */
+  const handleTemplateUpload = async () => {
+    if (!selectedDocType || !templateFile) return;
+
+    await uploadTemplate({
+      document_type_id: selectedDocType,
+      file: templateFile,
+    });
+
+    setTemplateFile(null);
   };
 
   return (
@@ -58,7 +81,7 @@ const SystemSettings = () => {
         </div>
       )}
 
-      {/* Company Name */}
+      {/* ================= Company Name ================= */}
       <div className="settings-card">
         <h4>{t("settings.companyName")}</h4>
         <div className="settings-row">
@@ -77,7 +100,50 @@ const SystemSettings = () => {
         </div>
       </div>
 
-      {/* Clear History */}
+      {/* ================= Template Upload Section ================= */}
+      <div className="settings-card">
+        <h4>{t("settings.templateUploadTitle")}</h4>
+
+        <div className="settings-column">
+          {/* Document Type Dropdown */}
+          <select
+            value={selectedDocType}
+            onChange={(e) => setSelectedDocType(e.target.value)}
+          >
+            <option value="">
+              {t("settings.selectDocumentType")}
+            </option>
+
+            {documentTypes?.map((type) => (
+              <option key={type.id} value={type.id}>
+                {type.name_en}
+              </option>
+            ))}
+          </select>
+
+          {/* Show file upload only if doc type selected */}
+          {selectedDocType && (
+            <>
+              <input
+                type="file"
+                onChange={(e) => setTemplateFile(e.target.files[0])}
+              />
+
+              <button
+                className="btn info"
+                onClick={handleTemplateUpload}
+                disabled={!templateFile || isLoading}
+              >
+                {isLoading
+                  ? t("auth.loading")
+                  : t("settings.uploadTemplate")}
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* ================= Clear History ================= */}
       <div className="settings-card danger">
         <h4>{t("settings.clearHistoryTitle")}</h4>
         <p>{t("settings.clearHistoryDesc")}</p>
@@ -89,7 +155,7 @@ const SystemSettings = () => {
         </button>
       </div>
 
-      {/* Clear Cache */}
+      {/* ================= Clear Cache ================= */}
       <div className="settings-card warning">
         <h4>{t("settings.clearRoutesTitle")}</h4>
         <p>{t("settings.clearRoutesDesc")}</p>
@@ -101,7 +167,7 @@ const SystemSettings = () => {
         </button>
       </div>
 
-      {/* Run Migrations */}
+      {/* ================= Run Migrations ================= */}
       <div className="settings-card info">
         <h4>{t("settings.runMigrationsTitle")}</h4>
         <p>{t("settings.runMigrationsDesc")}</p>
