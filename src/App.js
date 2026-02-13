@@ -8,7 +8,7 @@ const App = () => {
 
   useEffect(() => {
     fetchCompanyName();
-  }, []);
+  }, [fetchCompanyName]);
 
   useEffect(() => {
     if (companyName) {
