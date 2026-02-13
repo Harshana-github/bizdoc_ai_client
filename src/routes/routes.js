@@ -6,6 +6,7 @@ export const ROUTES = {
   HISTORY_DETAILS: "/history/:id",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  SYSTEM_SETTINGS: "/settings",
 };
 
 export const ROUTE_TITLES = {

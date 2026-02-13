@@ -4,19 +4,39 @@ import { useTranslation } from "react-i18next";
 
 import "./Sidebar.scss";
 import { ROUTES } from "../routes/routes";
+import useSystemSettingStore from "../store/useSystemSettingStore";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const { companyName } = useSystemSettingStore();
+
+  const renderCompanyName = () => {
+    if (!companyName) return t("dashboard.loading");
+
+    const parts = companyName.trim().split(" ");
+
+    // Only one word → normal display
+    if (parts.length === 1) {
+      return companyName;
+    }
+
+    return (
+      <>
+        {parts.slice(0, -1).join(" ")} <span>{parts[parts.length - 1]}</span>
+      </>
+    );
+  };
+
   return (
     <div className="sidebar-container">
       <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
         <div className={`sidebar-header ${collapsed ? "collapsed" : ""}`}>
           {!collapsed && (
-            <div className="sidebar-logo" onClick={(e) => navigate('/')}>
-              BizDoc <span>AI</span>
+            <div className="sidebar-logo" onClick={(e) => navigate("/")}>
+              {renderCompanyName()}
             </div>
           )}
 

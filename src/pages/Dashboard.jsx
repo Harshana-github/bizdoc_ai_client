@@ -3,10 +3,12 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import useOcrStore from "../store/ocrStore";
 import "./Dashboard.scss";
+import useSystemSettingStore from "../store/useSystemSettingStore";
 
 const Dashboard = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { companyName } = useSystemSettingStore();
 
   const { fetchProcessCount, processCount, processCountLoading } =
     useOcrStore();
@@ -24,7 +26,7 @@ const Dashboard = () => {
       {/* HERO SECTION */}
       <div className="dashboard-hero">
         <h1>{t("dashboard.title")}</h1>
-        <p className="hero-subtitle">{t("dashboard.welcome")}</p>
+        <p className="hero-subtitle">{t("dashboard.welcome", { company: companyName })}</p>
 
         <button className="hero-upload-btn" onClick={handleUpload}>
           📄 {t("dashboard.uploadNew")}

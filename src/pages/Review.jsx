@@ -5,6 +5,7 @@ import renderObject from "./DynamicForm";
 import "./Review.scss";
 import { useNavigate } from "react-router-dom";
 import { FaSave, FaEdit } from "react-icons/fa";
+import useSystemSettingStore from "../store/useSystemSettingStore";
 
 const DataLoader = () => {
   const { t } = useTranslation();
@@ -32,6 +33,7 @@ const Review = () => {
     exportOcr,
     clearFile,
   } = useOcrStore();
+  const { companyName } = useSystemSettingStore();
   const file = result?.file;
   const ocr = result?.ocr;
 
@@ -188,7 +190,7 @@ const Review = () => {
         </div>
       </div>
 
-      <p className="info">{t("review.info")}</p>
+      <p className="info">{t("review.info", { company: companyName })}</p>
       {alert && (
         <div
           className={`upload-alert ${

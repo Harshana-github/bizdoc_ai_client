@@ -1,0 +1,33 @@
+{
+  "settings": {
+    "title": "System Settings",
+    "subtitle": "Manage application configuration",
+
+    "companyName": "Company Name",
+    "save": "Save",
+    "companyUpdated": "Company name updated successfully",
+
+    "clearHistoryTitle": "Clear OCR History",
+    "clearHistoryDesc": "This will permanently remove all OCR results and stored files from the system.",
+    "clearHistory": "Clear History",
+    "confirmClearHistory": "Are you sure you want to clear all OCR history?",
+    "historyCleared": "OCR history cleared successfully",
+
+    "clearRoutesTitle": "Clear System Cache",
+    "clearRoutesDesc": "This will clear application cache, config cache, route cache, and view cache.",
+    "clearRoutes": "Clear Cache",
+    "confirmClearRoutes": "Are you sure you want to clear the system cache?",
+    "routesCleared": "System cache cleared successfully",
+
+    "runMigrationsTitle": "Run Database Migrations",
+    "runMigrationsDesc": "This will execute pending database migrations on the server.",
+    "runMigrations": "Run Migrations",
+    "confirmRunMigrations": "Are you sure you want to run database migrations?",
+    "migrationsSuccess": "Database migrations executed successfully",
+
+    "confirmTitle": "Confirmation Required",
+    "areYouSure": "This action cannot be undone. Do you want to continue?",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  }
+}

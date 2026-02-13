@@ -1,11 +1,12 @@
 {
   "dashboard": {
     "title": "ダッシュボード",
-    "welcome": "BizDoc AIへようこそ",
+    "welcome": "{{company}}へようこそ",
     "uploadNew": "新しいドキュメントをアップロード",
     "description": "ビジネス文書を効率的に管理・処理できます。",
     "totalDocs": "総ドキュメント数",
     "pending": "確認待ち",
-    "completed": "完了"
+    "completed": "完了",
+    "loading": "Loading..."
   }
 }

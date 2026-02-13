@@ -9,6 +9,7 @@ import AuthEN from "./locales/en/auth.json";
 import UploadEN from "./locales/en/upload.json";
 import HistoryEN from "./locales/en/history.json";
 import ReviewEN from "./locales/en/review.json";
+import SettingsEN from "./locales/en/settings.json";
 
 import HeaderJP from "./locales/ja/header.json";
 import SidebarJP from "./locales/ja/side-bar.json";
@@ -17,6 +18,7 @@ import AuthJP from "./locales/ja/auth.json";
 import UploadJP from "./locales/ja/upload.json";
 import HistoryJP from "./locales/ja/history.json";
 import ReviewJP from "./locales/ja/review.json";
+import SettingsJP from "./locales/ja/settings.json";
 
 const resources = {
   en: {
@@ -28,6 +30,7 @@ const resources = {
       ...UploadEN,
       ...HistoryEN,
       ...ReviewEN,
+      ...SettingsEN,
     },
   },
   ja: {
@@ -39,6 +42,7 @@ const resources = {
       ...UploadJP,
       ...HistoryJP,
       ...ReviewJP,
+      ...SettingsJP,
     },
   },
 };

@@ -1,0 +1,33 @@
+{
+  "settings": {
+    "title": "システム設定",
+    "subtitle": "アプリケーション設定を管理します",
+
+    "companyName": "会社名",
+    "save": "保存",
+    "companyUpdated": "会社名を更新しました",
+
+    "clearHistoryTitle": "OCR履歴を削除",
+    "clearHistoryDesc": "保存されたOCR結果および関連ファイルを完全に削除します。",
+    "clearHistory": "履歴を削除",
+    "confirmClearHistory": "すべてのOCR履歴を削除してもよろしいですか？",
+    "historyCleared": "OCR履歴を削除しました",
+
+    "clearRoutesTitle": "システムキャッシュを削除",
+    "clearRoutesDesc": "アプリケーションキャッシュ、設定キャッシュ、ルートキャッシュ、ビューキャッシュを削除します。",
+    "clearRoutes": "キャッシュを削除",
+    "confirmClearRoutes": "システムキャッシュを削除してもよろしいですか？",
+    "routesCleared": "システムキャッシュを削除しました",
+
+    "runMigrationsTitle": "データベースマイグレーションを実行",
+    "runMigrationsDesc": "保留中のデータベースマイグレーションを実行します。",
+    "runMigrations": "マイグレーションを実行",
+    "confirmRunMigrations": "データベースマイグレーションを実行してもよろしいですか？",
+    "migrationsSuccess": "データベースマイグレーションを実行しました",
+
+    "confirmTitle": "確認が必要です",
+    "areYouSure": "この操作は元に戻せません。続行しますか？",
+    "confirm": "確認",
+    "cancel": "キャンセル"
+  }
+}
